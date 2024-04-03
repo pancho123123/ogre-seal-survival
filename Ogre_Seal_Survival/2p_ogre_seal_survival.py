@@ -763,11 +763,13 @@ while running:
 	
 	draw_hp_bar(screen, 20, 5, player1.hp)
 	draw_text2(screen, str(int(player1.hp)) + "/100", 10, 45, 6)
-	draw_hp_bar(screen, player1.rect.x, player1.rect.y - 10, player1.hp)
+	if player1.hp > 0:
+		draw_hp_bar(screen, player1.rect.x, player1.rect.y - 10, player1.hp)
 
 	draw_hp_bar(screen, 815, 5, player2.hp)
 	draw_text2(screen, str(int(player2.hp))+ "/100", 10, 840, 6)
-	draw_hp_bar(screen, player2.rect.x, player2.rect.y - 10, player2.hp)
+	if player2.hp > 0:
+		draw_hp_bar(screen, player2.rect.x, player2.rect.y - 10, player2.hp)
 
 	draw_mana_bar(screen, 20, 15, player1.mana)
 	draw_text1(screen, str(int(player1.mana))+ "/100", 10, 45, 16)

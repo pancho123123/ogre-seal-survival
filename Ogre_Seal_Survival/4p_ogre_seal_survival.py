@@ -1108,19 +1108,23 @@ while running:
 
 	draw_hp_bar(screen, 20, 5, player1.hp)
 	draw_text2(screen, str(int(player1.hp)) + "/100", 10, 45, 6)
-	draw_hp_bar(screen, player1.rect.x, player1.rect.y - 10, player1.hp)
+	if player1.hp > 0:
+		draw_hp_bar(screen, player1.rect.x, player1.rect.y - 10, player1.hp)
 
 	draw_hp_bar(screen, 315, 5, player2.hp)
 	draw_text2(screen, str(int(player2.hp))+ "/100", 10, 340, 6)
-	draw_hp_bar(screen, player2.rect.x, player2.rect.y - 10, player2.hp)
+	if player2.hp > 0:
+		draw_hp_bar(screen, player2.rect.x, player2.rect.y - 10, player2.hp)
 
 	draw_hp_bar(screen, 615, 5, player3.hp)
 	draw_text2(screen, str(int(player3.hp))+ "/100", 10, 640, 6)
-	draw_hp_bar(screen, player3.rect.x, player3.rect.y - 10, player3.hp)
+	if player3.hp > 0:
+		draw_hp_bar(screen, player3.rect.x, player3.rect.y - 10, player3.hp)
 
 	draw_hp_bar(screen, 915, 5, player4.hp)
 	draw_text2(screen, str(int(player4.hp))+ "/100", 10, 940, 6)
-	draw_hp_bar(screen, player4.rect.x, player4.rect.y - 10, player4.hp)
+	if player4.hp > 0:
+		draw_hp_bar(screen, player4.rect.x, player4.rect.y - 10, player4.hp)
 
 	draw_mana_bar(screen, 20, 15, player1.mana)
 	draw_text1(screen, str(int(player1.mana))+ "/100", 10, 45, 16)
