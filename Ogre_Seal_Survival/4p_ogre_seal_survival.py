@@ -31,7 +31,7 @@ def draw_text2(surface, text, size, x, y):
 	surface.blit(text_surface, text_rect)
 
 def draw_hp_bar(surface, x, y, percentage):
-	BAR_LENGHT = 100
+	BAR_LENGHT = 50
 	BAR_HEIGHT = 10
 	fill = (percentage / 100) * BAR_LENGHT
 	border = pygame.Rect(x, y, BAR_LENGHT, BAR_HEIGHT)
@@ -40,7 +40,7 @@ def draw_hp_bar(surface, x, y, percentage):
 	pygame.draw.rect(surface, WHITE, border, 2)
 
 def draw_hp_bar2(surface, x, y, percentage):
-	BAR_LENGHT = 100
+	BAR_LENGHT = 50
 	BAR_HEIGHT = 10
 	fill = (percentage / 100) * BAR_LENGHT
 	border = pygame.Rect(x, y, BAR_LENGHT, BAR_HEIGHT)
@@ -49,7 +49,7 @@ def draw_hp_bar2(surface, x, y, percentage):
 	pygame.draw.rect(surface, BROWN, border, 2)
 
 def draw_mana_bar(surface, x, y, percentage):
-	BAR_LENGHT = 100
+	BAR_LENGHT = 50
 	BAR_HEIGHT = 10
 	fill = (percentage / 100) * BAR_LENGHT
 	border = pygame.Rect(x, y, BAR_LENGHT, BAR_HEIGHT)
@@ -236,14 +236,14 @@ class Player4(Player):
 
 def distance(a,b):
 	#pitagoras distance between a and b
-	dx = a.rect.centerx - b.rect.centerx
-	dy = a.rect.centery - b.rect.centery
+	dx = b.rect.centerx - a.rect.centerx
+	dy = b.rect.centery - a.rect.centery
 	return (dx**2 + dy**2)**(1/2)
 
 def direction(a,b):
 	#x,y unitary vector from a to b
-	dx = a.rect.centerx - b.rect.centerx
-	dy = a.rect.centery - b.rect.centery
+	dx = b.rect.centerx - a.rect.centerx
+	dy = b.rect.centery - a.rect.centery
 	radio = (dx**2 + dy**2)**(1/2)
 	return dx/radio, dy/radio
 
@@ -259,23 +259,32 @@ class OgreSeal(pygame.sprite.Sprite):
 		self.target = None
 		self.speedx = 0
 		self.speedy = 0
-		self.counter = False
+		self.counter1 = True
+		self.counter2 = False
+		self.counter3 = False
+		self.counter4 = False
+		self.counter5 = False
+		self.counter6 = False
+		self.counter7 = False
+		self.speed = 1
+		#self.speed2 = 20
+		self.time1 = 0
+		self.time2 = 0
+		self.time3 = 0
 
 	def update(self):
 		alist = [-7,-6, 6, 7]
-		counter1 = True
-		counter2 = False
-		counter3 = False
-		rnow = pygame.time.get_ticks()//1000
-		self.rect.x += self.speedx
-		self.rect.y += self.speedy
+		target_list = [player1, player2, player3, player4]
+		target_list = [t for t in target_list if t.hp >0]
+		self.image.set_colorkey(WHITE)
+				
 		if self.speedx > 3:
 			self.speedx -= 0.3
 		if self.speedx < -3:
 			self.speedx += 0.3
 		if self.speedy > 3:
 			self.speedy -= 0.3
-		if self.speedy < 3:
+		if self.speedy < -3:
 			self.speedy += 0.3
 
 		if self.rect.right > WIDTH + 50:
@@ -287,59 +296,121 @@ class OgreSeal(pygame.sprite.Sprite):
 		if self.rect.y > 500:
 			self.speedy -= 8
 
-		if self.speedx > 0 and self.speedy > 0:
-			self.image = ogre_images[3]
-			self.image.set_colorkey(WHITE)
-		if self.speedx > 0 and self.speedy < 0:
-			self.image = ogre_images[1]
-			self.image.set_colorkey(WHITE)
-		if self.speedx < 0 and self.speedy > 0:
-			self.image = ogre_images[5]
-			self.image.set_colorkey(WHITE)
-		if self.speedx < 0 and self.speedy < 0:
-			self.image = ogre_images[7]
-			self.image.set_colorkey(WHITE)
-		if self.speedx > 0 and self.speedy == 0:
-			self.image = ogre_images[10]
-			self.image.set_colorkey(WHITE)
-		if self.speedx < 0 and self.speedy == 0:
-			self.image = ogre_images[6]
-			self.image.set_colorkey(WHITE)
-		if self.speedx == 0 and self.speedy > 0:
-			self.image = ogre_images[4]
-			self.image.set_colorkey(WHITE)
-		if self.speedx == 0 and self.speedy < 0:
-			self.image = ogre_images[9]
-			self.image.set_colorkey(WHITE)
 		
-		if counter1:
-			self.speedx += randint(-2, 2)
-			self.speedy += randint(-2, 2)
-			counter1 = False
-			counter2 = True
-		if counter2:
-			if rnow % 3 == 0:
-				counter2 = False
-				self.speedx += randint(-2, 2)
-				self.speedy += randint(-2, 2)
-				counter3 = True
-		if counter3:
-			if rnow % 3 == 0:
-				counter3 = False
-				self.speedx += randint(-2, 2)
-				self.speedy += randint(-2, 2)
+		print(self.target)
+		if self.counter1:
+			print("2")
+			self.counter1 = False
+			self.time1 = randint(500, 1000)
+			self.time2 = randint(500, 1000)
+			self.time3 = randint(500, 1000)
+			self.target = random.choice(target_list)
+			self.counter2 = True
+
+		if self.counter2:
+			self.time1 -= randint(0, 25)
+			
+			if (self.target.rect.centerx - self.rect.centerx) == 0:
+				if self.target.rect.centery > self.rect.centery:
+					self.image = ogre_images[4]
+					self.rect.centery += self.speed 
+				elif self.rect.centery > self.target.rect.centery:
+					self.image = ogre_images[9]
+					self.rect.centery -= self.speed
+				else:
+					self.rect.centery += 0
+			elif (self.target.rect.centerx - self.rect.centerx) != 0:
+				x,y = direction(self, self.target)
+				if x > 0 and y > 0:
+					self.image = ogre_images[3]
+				if x < 0 and y < 0:
+					self.image = ogre_images[7]
+				if x > 0 and y < 0:
+					self.image = ogre_images[1]
+				if x < 0 and y > 0:
+					self.image = ogre_images[5]
+				if x < 0 and y == 0:
+					self.image = ogre_images[6]
+				if x > 0 and y == 0:
+					self.image = ogre_images[10]
+				self.rect.centerx += self.speed*x
+				self.rect.centery += self.speed*y
 				
+		if self.time1 <= 0:
+			self.time1 = randint(500, 1000)
+			self.counter2 = False
+			self.counter3 = True
+			self.target = random.choice(target_list)
+
+		if self.counter3:
+			self.time2 -= randint(0,25)
+			
+			if (self.target.rect.centerx - self.rect.centerx) == 0:
+				if self.target.rect.centery > self.rect.centery:
+					self.image = ogre_images[4]
+					self.rect.centery += self.speed 
+				elif self.rect.centery > self.target.rect.centery:
+					self.image = ogre_images[9]
+					self.rect.centery -= self.speed
+				else:
+					self.rect.centery += 0
+			elif (self.target.rect.centerx - self.rect.centerx) != 0:
+				x,y = direction(self, self.target)
+				if x > 0 and y > 0:
+					self.image = ogre_images[3]
+				if x < 0 and y < 0:
+					self.image = ogre_images[7]
+				if x > 0 and y < 0:
+					self.image = ogre_images[1]
+				if x < 0 and y > 0:
+					self.image = ogre_images[5]
+				if x < 0 and y == 0:
+					self.image = ogre_images[6]
+				if x > 0 and y == 0:
+					self.image = ogre_images[10]
+				self.rect.centerx += self.speed*x
+				self.rect.centery += self.speed*y
+
+		if self.time2 <= 0:
+			self.time2 = randint(500, 1000)
+			self.counter3 = False
+			self.counter4 = True
+			self.target = random.choice(target_list)
+
+		if self.counter4:
+			self.time3 -= randint(0,25)
+			
+			if (self.target.rect.centerx - self.rect.centerx) == 0:
+				if self.target.rect.centery > self.rect.centery:
+					self.image = ogre_images[4]
+					self.rect.centery += self.speed 
+				elif self.rect.centery > self.target.rect.centery:
+					self.image = ogre_images[9]
+					self.rect.centery -= self.speed
+				else:
+					self.rect.centery += 0
+			elif (self.target.rect.centerx - self.rect.centerx) != 0:
+				x,y = direction(self, self.target)
+				if x > 0 and y > 0:
+					self.image = ogre_images[3]
+				if x < 0 and y < 0:
+					self.image = ogre_images[7]
+				if x > 0 and y < 0:
+					self.image = ogre_images[1]
+				if x < 0 and y > 0:
+					self.image = ogre_images[5]
+				if x < 0 and y == 0:
+					self.image = ogre_images[6]
+				if x > 0 and y == 0:
+					self.image = ogre_images[10]
+				self.rect.centerx += ((self.speed*x)**2)/2
+				self.rect.centery += ((self.speed*y)**2)/2
 				
-		if rnow % randint(10,12) == 0:
-			self.speedx = 0
-			self.speedy = 0
-			self.counter = True
-		if self.counter:
-			if rnow % 2 == 0:
-				self.speedx = random.choice(alist)
-				self.speedy = random.choice(alist)
-				self.counter = False
-				counter1 = True
+		if self.time3 <= 0:
+			self.time3 = randint(500, 1000)
+			self.counter4 = False		
+			self.counter1 = True
+			
 
 
 class OgreSeal1(OgreSeal):
@@ -387,7 +458,7 @@ class Borde2(pygame.sprite.Sprite):
 class Borde3(pygame.sprite.Sprite):
 	def __init__(self):
 		super().__init__()
-		self.image = pygame.transform.scale(pygame.image.load("img/borde.png").convert(),(1,800))
+		self.image = pygame.transform.scale(pygame.image.load("img/borde.png").convert(),(1,550))
 		self.image.set_colorkey(WHITE)
 		self.rect = self.image.get_rect()
 		self.rect.x = 300
@@ -396,7 +467,7 @@ class Borde3(pygame.sprite.Sprite):
 class Borde4(pygame.sprite.Sprite):
 	def __init__(self):
 		super().__init__()
-		self.image = pygame.transform.scale(pygame.image.load("img/borde.png").convert(),(1,800))
+		self.image = pygame.transform.scale(pygame.image.load("img/borde.png").convert(),(1,550))
 		self.image.set_colorkey(WHITE)
 		self.rect = self.image.get_rect()
 		self.rect.x = WIDTH
@@ -515,7 +586,6 @@ running = True
 start = True
 while running:
 	if game_over1:
-
 		show_game_over_screenp1()
 		borde1 = Borde1()
 		borde2 = Borde2()
@@ -539,19 +609,15 @@ while running:
 		ogre5_list = pygame.sprite.Group()
 		ogre6_list = pygame.sprite.Group()
 		player1 = Player1()
-		all_sprites.add(player1)
 		player2 = Player2()
-		all_sprites.add(player2)
 		player3 = Player3()
-		all_sprites.add(player3)
 		player4 = Player4()
-		all_sprites.add(player4)
+		all_sprites.add(player1, player2, player3, player4)
 
 		start_time = pygame.time.get_ticks()
 		score = 0
 
 	if game_over2:
-
 		show_game_over_screenp2()
 		borde1 = Borde1()
 		borde2 = Borde2()
@@ -575,19 +641,15 @@ while running:
 		ogre5_list = pygame.sprite.Group()
 		ogre6_list = pygame.sprite.Group()
 		player1 = Player1()
-		all_sprites.add(player1)
 		player2 = Player2()
-		all_sprites.add(player2)
 		player3 = Player3()
-		all_sprites.add(player3)
 		player4 = Player4()
-		all_sprites.add(player4)
+		all_sprites.add(player1, player2, player3, player4)
 
 		start_time = pygame.time.get_ticks()
 		score = 0
 
 	if game_over3:
-
 		show_game_over_screenp3()
 		borde1 = Borde1()
 		borde2 = Borde2()
@@ -611,19 +673,15 @@ while running:
 		ogre5_list = pygame.sprite.Group()
 		ogre6_list = pygame.sprite.Group()
 		player1 = Player1()
-		all_sprites.add(player1)
 		player2 = Player2()
-		all_sprites.add(player2)
 		player3 = Player3()
-		all_sprites.add(player3)
 		player4 = Player4()
-		all_sprites.add(player4)
+		all_sprites.add(player1, player2, player3, player4)
 
 		start_time = pygame.time.get_ticks()
 		score = 0
 
 	if game_over4:
-
 		show_game_over_screenp4()
 		borde1 = Borde1()
 		borde2 = Borde2()
@@ -647,13 +705,10 @@ while running:
 		ogre5_list = pygame.sprite.Group()
 		ogre6_list = pygame.sprite.Group()
 		player1 = Player1()
-		all_sprites.add(player1)
 		player2 = Player2()
-		all_sprites.add(player2)
 		player3 = Player3()
-		all_sprites.add(player3)
 		player4 = Player4()
-		all_sprites.add(player4)
+		all_sprites.add(player1, player2, player3, player4)
 
 		start_time = pygame.time.get_ticks()
 		score = 0
@@ -675,13 +730,10 @@ while running:
 		ogre5_list = pygame.sprite.Group()
 		ogre6_list = pygame.sprite.Group()
 		player1 = Player1()
-		all_sprites.add(player1)
 		player2 = Player2()
-		all_sprites.add(player2)
 		player3 = Player3()
-		all_sprites.add(player3)
 		player4 = Player4()
-		all_sprites.add(player4)
+		all_sprites.add(player1, player2, player3, player4)
 
 		start_time = pygame.time.get_ticks()
 		score = 0
@@ -691,6 +743,8 @@ while running:
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			running = False
+			pygame.quit()
+			sys.exit()
 
 		
 	now = (pygame.time.get_ticks() - start_time)//1000
@@ -756,145 +810,145 @@ while running:
 	# Checar colisiones - jugador1 - ogre seal 1
 	hits = pygame.sprite.spritecollide(player1, ogre1_list, False)
 	for hit in hits:
-		if ((((ogre1.speedx)**(2)) + ((ogre1.speedy)**(2)))**(1/2)) > 6:
+		if ((ogre1.speedx)**2 + (ogre1.speedy)**2)**(1/2) > 4:
 			player1.hp -= 0.8
 
 	# Checar colisiones - jugador2 - ogre seal 1
 	hits = pygame.sprite.spritecollide(player2, ogre1_list, False)
 	for hit in hits:
-		if ((((ogre1.speedx)**(2)) + ((ogre1.speedy)**(2)))**(1/2)) > 6:
+		if ((ogre1.speedx)**2 + (ogre1.speedy)**2)**(1/2) > 4:
 			player2.hp -= 0.8
 
 	# Checar colisiones - jugador3 - ogre seal 1
 	hits = pygame.sprite.spritecollide(player3, ogre1_list, False)
 	for hit in hits:
-		if ((((ogre1.speedx)**(2)) + ((ogre1.speedy)**(2)))**(1/2)) > 6:
+		if ((ogre1.speedx)**2 + (ogre1.speedy)**2)**(1/2) > 4:
 			player3.hp -= 0.8
 
 	# Checar colisiones - jugador4 - ogre seal 1
 	hits = pygame.sprite.spritecollide(player4, ogre1_list, False)
 	for hit in hits:
-		if ((((ogre1.speedx)**(2)) + ((ogre1.speedy)**(2)))**(1/2)) > 6:
+		if ((ogre1.speedx)**2 + (ogre1.speedy)**2)**(1/2) > 4:
 			player4.hp -= 0.8
 
 	# Checar colisiones - jugador1 - ogre seal 2
 	hits = pygame.sprite.spritecollide(player1, ogre2_list, False)
 	for hit in hits:
-		if ((((ogre2.speedx)**(2)) + ((ogre2.speedy)**(2)))**(1/2)) > 6:
+		if ((ogre2.speedx)**2 + (ogre2.speedy)**2)**(1/2) > 4:
 			player1.hp -= 0.8
 
 	# Checar colisiones - jugador2 - ogre seal 2
 	hits = pygame.sprite.spritecollide(player2, ogre2_list, False)
 	for hit in hits:
-		if ((((ogre2.speedx)**(2)) + ((ogre2.speedy)**(2)))**(1/2)) > 6:
+		if ((ogre2.speedx)**2 + (ogre2.speedy)**2)**(1/2) > 4:
 			player2.hp -= 0.8
 
 	# Checar colisiones - jugador3 - ogre seal 2
 	hits = pygame.sprite.spritecollide(player3, ogre2_list, False)
 	for hit in hits:
-		if ((((ogre2.speedx)**(2)) + ((ogre2.speedy)**(2)))**(1/2)) > 6:
+		if ((ogre2.speedx)**2 + (ogre2.speedy)**2)**(1/2) > 4:
 			player3.hp -= 0.8
 
 	# Checar colisiones - jugador4 - ogre seal 2
 	hits = pygame.sprite.spritecollide(player4, ogre2_list, False)
 	for hit in hits:
-		if ((((ogre2.speedx)**(2)) + ((ogre2.speedy)**(2)))**(1/2)) > 6:
+		if ((ogre2.speedx)**2 + (ogre2.speedy)**2)**(1/2) > 4:
 			player4.hp -= 0.8
 
 	# Checar colisiones - jugador1 - ogre seal 3
 	hits = pygame.sprite.spritecollide(player1, ogre3_list, False)
 	for hit in hits:
-		if ((((ogre3.speedx)**(2)) + ((ogre3.speedy)**(2)))**(1/2)) > 6:
+		if ((ogre3.speedx)**2 + (ogre3.speedy)**2)**(1/2) > 4:
 			player1.hp -= 0.8
 
 	# Checar colisiones - jugador2 - ogre seal 3
 	hits = pygame.sprite.spritecollide(player2, ogre3_list, False)
 	for hit in hits:
-		if ((((ogre3.speedx)**(2)) + ((ogre3.speedy)**(2)))**(1/2)) > 6:
+		if ((ogre3.speedx)**2 + (ogre3.speedy)**2)**(1/2) > 4:
 			player2.hp -= 0.8
 
 	# Checar colisiones - jugador3 - ogre seal 3
 	hits = pygame.sprite.spritecollide(player3, ogre3_list, False)
 	for hit in hits:
-		if ((((ogre3.speedx)**(2)) + ((ogre3.speedy)**(2)))**(1/2)) > 6:
+		if ((ogre3.speedx)**2 + (ogre3.speedy)**2)**(1/2) > 4:
 			player3.hp -= 0.8
 
 	# Checar colisiones - jugador4 - ogre seal 3
 	hits = pygame.sprite.spritecollide(player4, ogre3_list, False)
 	for hit in hits:
-		if ((((ogre3.speedx)**(2)) + ((ogre3.speedy)**(2)))**(1/2)) > 6:
+		if ((ogre3.speedx)**2 + (ogre3.speedy)**2)**(1/2) > 4:
 			player4.hp -= 0.8
 
 	# Checar colisiones - jugador1 - ogre seal 4
 	hits = pygame.sprite.spritecollide(player1, ogre4_list, False)
 	for hit in hits:
-		if ((((ogre4.speedx)**(2)) + ((ogre4.speedy)**(2)))**(1/2)) > 6:
+		if ((ogre4.speedx)**2 + (ogre4.speedy)**2)**(1/2) > 4:
 			player1.hp -= 0.8
 
 	# Checar colisiones - jugador2 - ogre seal 4
 	hits = pygame.sprite.spritecollide(player2, ogre4_list, False)
 	for hit in hits:
-		if ((((ogre4.speedx)**(2)) + ((ogre4.speedy)**(2)))**(1/2)) > 6:
+		if ((ogre4.speedx)**2 + (ogre4.speedy)**2)**(1/2) > 4:
 			player2.hp -= 0.8
 
 	# Checar colisiones - jugador3 - ogre seal 4
 	hits = pygame.sprite.spritecollide(player3, ogre4_list, False)
 	for hit in hits:
-		if ((((ogre4.speedx)**(2)) + ((ogre4.speedy)**(2)))**(1/2)) > 6:
+		if ((ogre4.speedx)**2 + (ogre4.speedy)**2)**(1/2) > 4:
 			player3.hp -= 0.8
 
 	# Checar colisiones - jugador4 - ogre seal 4
 	hits = pygame.sprite.spritecollide(player4, ogre4_list, False)
 	for hit in hits:
-		if ((((ogre4.speedx)**(2)) + ((ogre4.speedy)**(2)))**(1/2)) > 6:
+		if ((ogre4.speedx)**2 + (ogre4.speedy)**2)**(1/2) > 4:
 			player4.hp -= 0.8
 
 	# Checar colisiones - jugador1 - ogre seal 5
 	hits = pygame.sprite.spritecollide(player1, ogre5_list, False)
 	for hit in hits:
-		if ((((ogre5.speedx)**(2)) + ((ogre5.speedy)**(2)))**(1/2)) > 6:
+		if ((ogre5.speedx)**2 + (ogre5.speedy)**2)**(1/2) > 4:
 			player1.hp -= 0.8
 
 	# Checar colisiones - jugador2 - ogre seal 5
 	hits = pygame.sprite.spritecollide(player2, ogre5_list, False)
 	for hit in hits:
-		if ((((ogre5.speedx)**(2)) + ((ogre5.speedy)**(2)))**(1/2)) > 6:
+		if ((ogre5.speedx)**2 + (ogre5.speedy)**2)**(1/2) > 4:
 			player2.hp -= 0.8
 
 	# Checar colisiones - jugador3 - ogre seal 5
 	hits = pygame.sprite.spritecollide(player3, ogre5_list, False)
 	for hit in hits:
-		if ((((ogre5.speedx)**(2)) + ((ogre5.speedy)**(2)))**(1/2)) > 6:
+		if ((ogre5.speedx)**2 + (ogre5.speedy)**2)**(1/2) > 4:
 			player3.hp -= 0.8
 
 	# Checar colisiones - jugador4 - ogre seal 5
 	hits = pygame.sprite.spritecollide(player4, ogre5_list, False)
 	for hit in hits:
-		if ((((ogre5.speedx)**(2)) + ((ogre5.speedy)**(2)))**(1/2)) > 6:
+		if ((ogre5.speedx)**2 + (ogre5.speedy)**2)**(1/2) > 4:
 			player4.hp -= 0.8
 
 	# Checar colisiones - jugador1 - ogre seal 6
 	hits = pygame.sprite.spritecollide(player1, ogre6_list, False)
 	for hit in hits:
-		if ((((ogre6.speedx)**(2)) + ((ogre6.speedy)**(2)))**(1/2)) > 6:
+		if ((ogre6.speedx)**2 + (ogre6.speedy)**2)**(1/2) > 4:
 			player1.hp -= 0.8
 
 	# Checar colisiones - jugador2 - ogre seal 6
 	hits = pygame.sprite.spritecollide(player2, ogre6_list, False)
 	for hit in hits:
-		if ((((ogre6.speedx)**(2)) + ((ogre6.speedy)**(2)))**(1/2)) > 6:
+		if ((ogre6.speedx)**2 + (ogre6.speedy)**2)**(1/2) > 4:
 			player2.hp -= 0.8
 
 	# Checar colisiones - jugador3 - ogre seal 6
 	hits = pygame.sprite.spritecollide(player3, ogre6_list, False)
 	for hit in hits:
-		if ((((ogre6.speedx)**(2)) + ((ogre6.speedy)**(2)))**(1/2)) > 6:
+		if ((ogre6.speedx)**2 + (ogre6.speedy)**2)**(1/2) > 4:
 			player3.hp -= 0.8
 
 	# Checar colisiones - jugador4 - ogre seal 6
 	hits = pygame.sprite.spritecollide(player4, ogre6_list, False)
 	for hit in hits:
-		if ((((ogre6.speedx)**(2)) + ((ogre6.speedy)**(2)))**(1/2)) > 6:
+		if ((ogre6.speedx)**2 + (ogre6.speedy)**2)**(1/2) > 4:
 			player4.hp -= 0.8
 		
 	# Checar colisiones - borde1 - ogre seal 1
@@ -1053,28 +1107,32 @@ while running:
 
 
 	draw_hp_bar(screen, 20, 5, player1.hp)
-	draw_text2(screen, str(int(player1.hp)) + "/100", 10, 70, 6)
+	draw_text2(screen, str(int(player1.hp)) + "/100", 10, 45, 6)
+	draw_hp_bar(screen, player1.rect.x, player1.rect.y - 10, player1.hp)
 
 	draw_hp_bar(screen, 315, 5, player2.hp)
-	draw_text2(screen, str(int(player2.hp))+ "/100", 10, 370, 6)
+	draw_text2(screen, str(int(player2.hp))+ "/100", 10, 340, 6)
+	draw_hp_bar(screen, player2.rect.x, player2.rect.y - 10, player2.hp)
 
 	draw_hp_bar(screen, 615, 5, player3.hp)
-	draw_text2(screen, str(int(player3.hp))+ "/100", 10, 670, 6)
+	draw_text2(screen, str(int(player3.hp))+ "/100", 10, 640, 6)
+	draw_hp_bar(screen, player3.rect.x, player3.rect.y - 10, player3.hp)
 
 	draw_hp_bar(screen, 915, 5, player4.hp)
-	draw_text2(screen, str(int(player4.hp))+ "/100", 10, 970, 6)
+	draw_text2(screen, str(int(player4.hp))+ "/100", 10, 940, 6)
+	draw_hp_bar(screen, player4.rect.x, player4.rect.y - 10, player4.hp)
 
 	draw_mana_bar(screen, 20, 15, player1.mana)
-	draw_text1(screen, str(int(player1.mana))+ "/100", 10, 70, 16)
+	draw_text1(screen, str(int(player1.mana))+ "/100", 10, 45, 16)
 
 	draw_mana_bar(screen, 315, 15, player2.mana)
-	draw_text1(screen, str(int(player2.mana))+ "/100", 10, 370, 16)
+	draw_text1(screen, str(int(player2.mana))+ "/100", 10, 340, 16)
 
 	draw_mana_bar(screen, 615, 15, player3.mana)
-	draw_text1(screen, str(int(player3.mana))+ "/100", 10, 670, 16)
+	draw_text1(screen, str(int(player3.mana))+ "/100", 10, 640, 16)
 
 	draw_mana_bar(screen, 915, 15, player4.mana)
-	draw_text1(screen, str(int(player4.mana))+ "/100", 10, 970, 16)
+	draw_text1(screen, str(int(player4.mana))+ "/100", 10, 940, 16)
 
 	#reloj
 	draw_text1(screen, str((((pygame.time.get_ticks() - start_time)//60000)+(60))%(60))+":" + str((((pygame.time.get_ticks() - start_time)//1000)+(60))%(60)), 30, 570, 50)

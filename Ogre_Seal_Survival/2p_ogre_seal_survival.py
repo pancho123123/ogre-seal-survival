@@ -31,7 +31,7 @@ def draw_text2(surface, text, size, x, y):
 	surface.blit(text_surface, text_rect)
 
 def draw_hp_bar(surface, x, y, percentage):
-	BAR_LENGHT = 100
+	BAR_LENGHT = 50
 	BAR_HEIGHT = 10
 	fill = (percentage / 100) * BAR_LENGHT
 	border = pygame.Rect(x, y, BAR_LENGHT, BAR_HEIGHT)
@@ -40,7 +40,7 @@ def draw_hp_bar(surface, x, y, percentage):
 	pygame.draw.rect(surface, WHITE, border, 2)
 
 def draw_hp_bar2(surface, x, y, percentage):
-	BAR_LENGHT = 100
+	BAR_LENGHT = 50
 	BAR_HEIGHT = 10
 	fill = (percentage / 100) * BAR_LENGHT
 	border = pygame.Rect(x, y, BAR_LENGHT, BAR_HEIGHT)
@@ -49,7 +49,7 @@ def draw_hp_bar2(surface, x, y, percentage):
 	pygame.draw.rect(surface, BROWN, border, 2)
 
 def draw_mana_bar(surface, x, y, percentage):
-	BAR_LENGHT = 100
+	BAR_LENGHT = 50
 	BAR_HEIGHT = 10
 	fill = (percentage / 100) * BAR_LENGHT
 	border = pygame.Rect(x, y, BAR_LENGHT, BAR_HEIGHT)
@@ -150,17 +150,16 @@ class Player2(Player):
 		if self.rect.bottom > 550:
 			self.rect.bottom = 550
 
-
 def distance(a,b):
 	#pitagoras distance between a and b
-	dx = a.rect.centerx - b.rect.centerx
-	dy = a.rect.centery - b.rect.centery
+	dx = b.rect.centerx - a.rect.centerx
+	dy = b.rect.centery - a.rect.centery
 	return (dx**2 + dy**2)**(1/2)
 
 def direction(a,b):
 	#x,y unitary vector from a to b
-	dx = a.rect.centerx - b.rect.centerx
-	dy = a.rect.centery - b.rect.centery
+	dx = b.rect.centerx - a.rect.centerx
+	dy = b.rect.centery - a.rect.centery
 	radio = (dx**2 + dy**2)**(1/2)
 	return dx/radio, dy/radio
 
@@ -302,7 +301,7 @@ class Borde2(pygame.sprite.Sprite):
 class Borde3(pygame.sprite.Sprite):
 	def __init__(self):
 		super().__init__()
-		self.image = pygame.transform.scale(pygame.image.load("img/borde.png").convert(),(1,800))
+		self.image = pygame.transform.scale(pygame.image.load("img/borde.png").convert(),(1,550))
 		self.image.set_colorkey(WHITE)
 		self.rect = self.image.get_rect()
 		self.rect.x = 300
@@ -311,7 +310,7 @@ class Borde3(pygame.sprite.Sprite):
 class Borde4(pygame.sprite.Sprite):
 	def __init__(self):
 		super().__init__()
-		self.image = pygame.transform.scale(pygame.image.load("img/borde.png").convert(),(1,800))
+		self.image = pygame.transform.scale(pygame.image.load("img/borde.png").convert(),(1,550))
 		self.image.set_colorkey(WHITE)
 		self.rect = self.image.get_rect()
 		self.rect.x = WIDTH
@@ -391,7 +390,6 @@ running = True
 start = True
 while running:
 	if game_over1:
-
 		show_game_over_screenp1()
 		borde1 = Borde1()
 		borde2 = Borde2()
@@ -423,7 +421,6 @@ while running:
 		score = 0
 
 	if game_over2:
-
 		show_game_over_screenp2()
 		borde1 = Borde1()
 		borde2 = Borde2()
@@ -482,6 +479,8 @@ while running:
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			running = False
+			pygame.quit()
+			sys.exit()
 
 	now = (pygame.time.get_ticks() - start_time)//1000
 	
@@ -763,16 +762,18 @@ while running:
 	draw_text1(screen, "P2", 20, 800, 6)
 	
 	draw_hp_bar(screen, 20, 5, player1.hp)
-	draw_text2(screen, str(int(player1.hp)) + "/100", 10, 70, 6)
+	draw_text2(screen, str(int(player1.hp)) + "/100", 10, 45, 6)
+	draw_hp_bar(screen, player1.rect.x, player1.rect.y - 10, player1.hp)
 
 	draw_hp_bar(screen, 815, 5, player2.hp)
-	draw_text2(screen, str(int(player2.hp))+ "/100", 10, 870, 6)
+	draw_text2(screen, str(int(player2.hp))+ "/100", 10, 840, 6)
+	draw_hp_bar(screen, player2.rect.x, player2.rect.y - 10, player2.hp)
 
 	draw_mana_bar(screen, 20, 15, player1.mana)
-	draw_text1(screen, str(int(player1.mana))+ "/100", 10, 70, 16)
+	draw_text1(screen, str(int(player1.mana))+ "/100", 10, 45, 16)
 
 	draw_mana_bar(screen, 815, 15, player2.mana)
-	draw_text1(screen, str(int(player2.mana))+ "/100", 10, 870, 16)
+	draw_text1(screen, str(int(player2.mana))+ "/100", 10, 840, 16)
 
 	#reloj
 	draw_text1(screen, str((((pygame.time.get_ticks() - start_time)//60000)+(60))%(60))+":" + str((((pygame.time.get_ticks() - start_time)//1000)+(60))%(60)), 30, 570, 50)
