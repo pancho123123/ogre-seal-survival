@@ -274,9 +274,6 @@ class OgreSeal(pygame.sprite.Sprite):
 		self.counter6 = False
 		self.counter7 = False
 		self.speed = 1
-		self.time1 = 0
-		self.time2 = 0
-		self.time3 = 0
 		self.n = 1000
 		self.start_time1 = pygame.time.get_ticks()
 		self.a = 0
@@ -288,6 +285,7 @@ class OgreSeal(pygame.sprite.Sprite):
 		self.target_list = [player1, player2, player3, player4]
 		self.target_list = [t for t in self.target_list if t.hp >0]
 		self.image.set_colorkey(WHITE)
+		print(self.target)
 				
 		if self.rect.right > WIDTH:
 			self.rect.right = WIDTH
@@ -309,7 +307,7 @@ class OgreSeal(pygame.sprite.Sprite):
 					self.rect.centery -= self.speed
 				else:
 					self.rect.centery += 0
-			elif (self.target.rect.centerx - self.rect.centerx) != 0:
+			else:
 				x,y = direction(self, self.target)
 				if x > 0 and y > 0:
 					self.image = ogre_images[3]
@@ -342,7 +340,7 @@ class OgreSeal(pygame.sprite.Sprite):
 					self.rect.centery -= self.speed
 				else:
 					self.rect.centery += 0
-			elif (self.target.rect.centerx - self.rect.centerx) != 0:
+			else:
 				x,y = direction(self, self.target)
 				if x > 0 and y > 0:
 					self.image = ogre_images[3]
@@ -374,7 +372,7 @@ class OgreSeal(pygame.sprite.Sprite):
 					self.rect.centery -= self.speed
 				else:
 					self.rect.centery += 0
-			elif (self.target.rect.centerx - self.rect.centerx) != 0:
+			else:
 				x,y = direction(self, self.target)
 				if x > 0 and y > 0:
 					self.image = ogre_images[3]
@@ -407,7 +405,7 @@ class OgreSeal(pygame.sprite.Sprite):
 					self.rect.centery -= self.speed
 				else:
 					self.rect.centery += 0
-			elif (self.target.rect.centerx - self.rect.centerx) != 0:
+			else:
 				x,y = direction(self, self.target)
 				if x > 0 and y > 0:
 					self.image = ogre_images[3]
@@ -439,7 +437,7 @@ class OgreSeal(pygame.sprite.Sprite):
 					self.rect.centery -= self.speed
 				else:
 					self.rect.centery += 0
-			elif (self.target.rect.centerx - self.rect.centerx) != 0:
+			else:
 				x,y = direction(self, self.target)
 				if x > 0 and y > 0:
 					self.image = ogre_images[3]
@@ -479,7 +477,7 @@ class OgreSeal(pygame.sprite.Sprite):
 					self.rect.centery -= self.speed*20
 				else:
 					self.rect.centery += 0
-			elif (self.a - self.rect.centerx) != 0:
+			else:
 				x,y = direction2(self,(self.a, self.b))
 				if x > 0 and y > 0:
 					self.image = ogre_images[3]
@@ -526,42 +524,6 @@ class OgreSeal5(OgreSeal):
 class OgreSeal6(OgreSeal):
 	def __init__(self):
 		super().__init__()
-
-class Borde1(pygame.sprite.Sprite):
-	def __init__(self):
-		super().__init__()
-		self.image = pygame.transform.scale(pygame.image.load("img/borde.png").convert(),(1000,1))
-		self.image.set_colorkey(WHITE)
-		self.rect = self.image.get_rect()
-		self.rect.x = 290
-		self.rect.y = 80
-
-class Borde2(pygame.sprite.Sprite):
-	def __init__(self):
-		super().__init__()
-		self.image = pygame.transform.scale(pygame.image.load("img/borde.png").convert(),(1000,1))
-		self.image.set_colorkey(WHITE)
-		self.rect = self.image.get_rect()
-		self.rect.x = 290
-		self.rect.y = 550
-
-class Borde3(pygame.sprite.Sprite):
-	def __init__(self):
-		super().__init__()
-		self.image = pygame.transform.scale(pygame.image.load("img/borde.png").convert(),(1,550))
-		self.image.set_colorkey(WHITE)
-		self.rect = self.image.get_rect()
-		self.rect.x = 300
-		self.rect.y = 0
-
-class Borde4(pygame.sprite.Sprite):
-	def __init__(self):
-		super().__init__()
-		self.image = pygame.transform.scale(pygame.image.load("img/borde.png").convert(),(1,550))
-		self.image.set_colorkey(WHITE)
-		self.rect = self.image.get_rect()
-		self.rect.x = WIDTH
-		self.rect.y = 0
 
 def show_go_screen():
 	
@@ -677,10 +639,7 @@ start = True
 while running:
 	if game_over1:
 		show_game_over_screenp1()
-		borde1 = Borde1()
-		borde2 = Borde2()
-		borde3 = Borde3()
-		borde4 = Borde4()
+		
 		screen.blit(background,(0,0))
 		game_over1 = False
 		counter1 = True
@@ -690,7 +649,7 @@ while running:
 		counter5 = True
 		counter6 = True
 		all_sprites = pygame.sprite.Group()
-		all_sprites.add(borde1, borde2, borde3, borde4)
+		
 		ogre_list = pygame.sprite.Group()
 		ogre1_list = pygame.sprite.Group()
 		ogre2_list = pygame.sprite.Group()
@@ -709,10 +668,7 @@ while running:
 
 	if game_over2:
 		show_game_over_screenp2()
-		borde1 = Borde1()
-		borde2 = Borde2()
-		borde3 = Borde3()
-		borde4 = Borde4()
+		
 		screen.blit(background,(0,0))
 		game_over2 = False
 		counter1 = True
@@ -722,7 +678,7 @@ while running:
 		counter5 = True
 		counter6 = True
 		all_sprites = pygame.sprite.Group()
-		all_sprites.add(borde1, borde2, borde3, borde4)
+		
 		ogre_list = pygame.sprite.Group()
 		ogre1_list = pygame.sprite.Group()
 		ogre2_list = pygame.sprite.Group()
@@ -741,10 +697,7 @@ while running:
 
 	if game_over3:
 		show_game_over_screenp3()
-		borde1 = Borde1()
-		borde2 = Borde2()
-		borde3 = Borde3()
-		borde4 = Borde4()
+		
 		screen.blit(background,(0,0))
 		game_over3 = False
 		counter1 = True
@@ -754,7 +707,7 @@ while running:
 		counter5 = True
 		counter6 = True
 		all_sprites = pygame.sprite.Group()
-		all_sprites.add(borde1, borde2, borde3, borde4)
+		
 		ogre_list = pygame.sprite.Group()
 		ogre1_list = pygame.sprite.Group()
 		ogre2_list = pygame.sprite.Group()
@@ -773,10 +726,7 @@ while running:
 
 	if game_over4:
 		show_game_over_screenp4()
-		borde1 = Borde1()
-		borde2 = Borde2()
-		borde3 = Borde3()
-		borde4 = Borde4()
+		
 		screen.blit(background,(0,0))
 		game_over4 = False
 		counter1 = True
@@ -786,7 +736,7 @@ while running:
 		counter5 = True
 		counter6 = True
 		all_sprites = pygame.sprite.Group()
-		all_sprites.add(borde1, borde2, borde3, borde4)
+		
 		ogre_list = pygame.sprite.Group()
 		ogre1_list = pygame.sprite.Group()
 		ogre2_list = pygame.sprite.Group()
@@ -805,13 +755,10 @@ while running:
 
 	if start:
 		show_go_screen()
-		borde1 = Borde1()
-		borde2 = Borde2()
-		borde3 = Borde3()
-		borde4 = Borde4()
+		
 		start = False
 		all_sprites = pygame.sprite.Group()
-		all_sprites.add(borde1, borde2, borde3, borde4)
+		
 		ogre_list = pygame.sprite.Group()
 		ogre1_list = pygame.sprite.Group()
 		ogre2_list = pygame.sprite.Group()
@@ -1091,149 +1038,3 @@ while running:
 	
 	pygame.display.flip()
 pygame.quit()
-
-"""
-# Checar colisiones - borde1 - ogre seal 1
-	hits = pygame.sprite.spritecollide(borde1, ogre1_list, False)
-	for hit in hits:
-		if ogre1.speedy < 0:
-			ogre1.speedy = -ogre1.speedy
-		
-	# Checar colisiones - borde2 - ogre seal 1
-	hits = pygame.sprite.spritecollide(borde2, ogre1_list, False)
-	for hit in hits:
-		if ogre1.speedy > 0:
-			ogre1.speedy = -ogre1.speedy
-		
-	# Checar colisiones - borde3 - ogre seal 1
-	hits = pygame.sprite.spritecollide(borde3, ogre1_list, False)
-	for hit in hits:
-		if ogre1.speedx < 0:
-			ogre1.speedx = -ogre1.speedx
-
-	# Checar colisiones - borde4 - ogre seal 1
-	hits = pygame.sprite.spritecollide(borde4, ogre1_list, False)
-	for hit in hits:
-		if ogre1.speedx > 0:
-			ogre1.speedx = -ogre1.speedx
-
-	# Checar colisiones - borde1 - ogre seal 2
-	hits = pygame.sprite.spritecollide(borde1, ogre2_list, False)
-	for hit in hits:
-		if ogre2.speedy < 0:
-			ogre2.speedy = -ogre2.speedy
-		
-	# Checar colisiones - borde2 - ogre seal 2
-	hits = pygame.sprite.spritecollide(borde2, ogre2_list, False)
-	for hit in hits:
-		if ogre2.speedy > 0:
-			ogre2.speedy = -ogre2.speedy
-		
-	# Checar colisiones - borde3 - ogre seal 2
-	hits = pygame.sprite.spritecollide(borde3, ogre2_list, False)
-	for hit in hits:
-		if ogre2.speedx < 0:
-			ogre2.speedx = -ogre2.speedx
-
-	# Checar colisiones - borde4 - ogre seal 2
-	hits = pygame.sprite.spritecollide(borde4, ogre2_list, False)
-	for hit in hits:
-		if ogre2.speedx > 0:
-			ogre2.speedx = -ogre2.speedx
-
-	# Checar colisiones - borde1 - ogre seal 3
-	hits = pygame.sprite.spritecollide(borde1, ogre3_list, False)
-	for hit in hits:
-		if ogre3.speedy < 0:
-			ogre3.speedy = -ogre3.speedy
-		
-	# Checar colisiones - borde2 - ogre seal 3
-	hits = pygame.sprite.spritecollide(borde2, ogre3_list, False)
-	for hit in hits:
-		if ogre3.speedy > 0:
-			ogre3.speedy = -ogre3.speedy
-		
-	# Checar colisiones - borde3 - ogre seal 3
-	hits = pygame.sprite.spritecollide(borde3, ogre3_list, False)
-	for hit in hits:
-		if ogre3.speedx < 0:
-			ogre3.speedx = -ogre3.speedx
-
-	# Checar colisiones - borde4 - ogre seal 3
-	hits = pygame.sprite.spritecollide(borde4, ogre3_list, False)
-	for hit in hits:
-		if ogre3.speedx > 0:
-			ogre3.speedx = -ogre3.speedx
-
-	# Checar colisiones - borde1 - ogre seal 4
-	hits = pygame.sprite.spritecollide(borde1, ogre4_list, False)
-	for hit in hits:
-		if ogre4.speedy < 0:
-			ogre4.speedy = -ogre4.speedy
-		
-	# Checar colisiones - borde2 - ogre seal 4
-	hits = pygame.sprite.spritecollide(borde2, ogre4_list, False)
-	for hit in hits:
-		if ogre4.speedy > 0:
-			ogre4.speedy = -ogre4.speedy
-		
-	# Checar colisiones - borde3 - ogre seal 4
-	hits = pygame.sprite.spritecollide(borde3, ogre4_list, False)
-	for hit in hits:
-		if ogre4.speedx < 0:
-			ogre4.speedx = -ogre4.speedx
-
-	# Checar colisiones - borde4 - ogre seal 4
-	hits = pygame.sprite.spritecollide(borde4, ogre4_list, False)
-	for hit in hits:
-		if ogre4.speedx > 0:
-			ogre4.speedx = -ogre4.speedx
-
-	# Checar colisiones - borde1 - ogre seal 5
-	hits = pygame.sprite.spritecollide(borde1, ogre5_list, False)
-	for hit in hits:
-		if ogre5.speedy < 0:
-			ogre5.speedy = -ogre5.speedy
-		
-	# Checar colisiones - borde2 - ogre seal 5
-	hits = pygame.sprite.spritecollide(borde2, ogre5_list, False)
-	for hit in hits:
-		if ogre5.speedy > 0:
-			ogre5.speedy = -ogre5.speedy
-		
-	# Checar colisiones - borde3 - ogre seal 5
-	hits = pygame.sprite.spritecollide(borde3, ogre5_list, False)
-	for hit in hits:
-		if ogre5.speedx < 0:
-			ogre5.speedx = -ogre5.speedx
-
-	# Checar colisiones - borde4 - ogre seal 5
-	hits = pygame.sprite.spritecollide(borde4, ogre5_list, False)
-	for hit in hits:
-		if ogre5.speedx > 0:
-			ogre5.speedx = -ogre5.speedx
-
-	# Checar colisiones - borde1 - ogre seal 6
-	hits = pygame.sprite.spritecollide(borde1, ogre6_list, False)
-	for hit in hits:
-		if ogre6.speedy < 0:
-			ogre6.speedy = -ogre6.speedy
-		
-	# Checar colisiones - borde2 - ogre seal 6
-	hits = pygame.sprite.spritecollide(borde2, ogre6_list, False)
-	for hit in hits:
-		if ogre6.speedy > 0:
-			ogre6.speedy = -ogre6.speedy
-		
-	# Checar colisiones - borde3 - ogre seal 6
-	hits = pygame.sprite.spritecollide(borde3, ogre6_list, False)
-	for hit in hits:
-		if ogre6.speedx < 0:
-			ogre6.speedx = -ogre6.speedx
-
-	# Checar colisiones - borde4 - ogre seal 6
-	hits = pygame.sprite.spritecollide(borde4, ogre6_list, False)
-	for hit in hits:
-		if ogre6.speedx > 0:
-			ogre6.speedx = -ogre6.speedx
-"""

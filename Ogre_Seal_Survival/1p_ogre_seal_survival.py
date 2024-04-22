@@ -182,7 +182,7 @@ class OgreSeal(pygame.sprite.Sprite):
 			if self.target.rect.centerx - self.rect.centerx == 0 and self.target.rect.centery - self.rect.centery == 0:
 				print("dif x equal dif y")
 				pass
-			if self.target.rect.centerx - self.rect.centerx != 0 or self.target.rect.centery - self.rect.centery != 0:
+			else:
 				x,y = u_direction(self,self.target)
 				print(x,y)
 				if x > 0 and y > 0:
@@ -241,7 +241,7 @@ class OgreSeal(pygame.sprite.Sprite):
 					self.image = ogre_images[9]
 				self.rect.centerx += self.speed*x*10
 				self.rect.centery += self.speed*y*10
-			if (self.a - self.rect.centerx) != 0 or (self.b - self.rect.centery) != 0:
+			else:
 				x,y = direction2(self,(self.a, self.b))
 				if x > 0 and y > 0:
 					self.image = ogre_images[3]
@@ -291,41 +291,6 @@ class OgreSeal6(OgreSeal):
 	def __init__(self):
 		super().__init__()
 		
-class Borde1(pygame.sprite.Sprite):
-	def __init__(self):
-		super().__init__()
-		self.image = pygame.transform.scale(pygame.image.load("img/borde.png").convert(),(1000,1))
-		self.image.set_colorkey(WHITE)
-		self.rect = self.image.get_rect()
-		self.rect.x = 290
-		self.rect.y = 80
-
-class Borde2(pygame.sprite.Sprite):
-	def __init__(self):
-		super().__init__()
-		self.image = pygame.transform.scale(pygame.image.load("img/borde.png").convert(),(1000,1))
-		self.image.set_colorkey(WHITE)
-		self.rect = self.image.get_rect()
-		self.rect.x = 290
-		self.rect.y = 550
-
-class Borde3(pygame.sprite.Sprite):
-	def __init__(self):
-		super().__init__()
-		self.image = pygame.transform.scale(pygame.image.load("img/borde.png").convert(),(1,550))
-		self.image.set_colorkey(WHITE)
-		self.rect = self.image.get_rect()
-		self.rect.x = 300
-		self.rect.y = 0
-
-class Borde4(pygame.sprite.Sprite):
-	def __init__(self):
-		super().__init__()
-		self.image = pygame.transform.scale(pygame.image.load("img/borde.png").convert(),(1,550))
-		self.image.set_colorkey(WHITE)
-		self.rect = self.image.get_rect()
-		self.rect.x = WIDTH
-		self.rect.y = 0
 
 def show_go_screen():
 	
@@ -383,10 +348,7 @@ start = True
 while running:
 	if game_over:
 		show_game_over_screen()
-		borde1 = Borde1()
-		borde2 = Borde2()
-		borde3 = Borde3()
-		borde4 = Borde4()
+		
 		screen.blit(background,(0,0))
 		game_over = False
 		counter1 = True
@@ -396,7 +358,7 @@ while running:
 		counter5 = True
 		counter6 = True
 		all_sprites = pygame.sprite.Group()
-		all_sprites.add(borde1, borde2, borde3, borde4)
+		
 		ogre_list = pygame.sprite.Group()
 		ogre1_list = pygame.sprite.Group()
 		ogre2_list = pygame.sprite.Group()
@@ -412,13 +374,10 @@ while running:
 	
 	if start:
 		show_go_screen()
-		borde1 = Borde1()
-		borde2 = Borde2()
-		borde3 = Borde3()
-		borde4 = Borde4()
+		
 		start = False
 		all_sprites = pygame.sprite.Group()
-		all_sprites.add(borde1, borde2, borde3, borde4)
+		
 		ogre_list = pygame.sprite.Group()
 		ogre1_list = pygame.sprite.Group()
 		ogre2_list = pygame.sprite.Group()
