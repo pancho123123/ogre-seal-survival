@@ -143,9 +143,9 @@ class OgreSeal(pygame.sprite.Sprite):
 		self.counter1 = True
 		self.counter2 = False
 		self.counter3 = False
-		self.n = 5000
+		self.n = randint(2000,4000)
 		self.start_time1 = pygame.time.get_ticks()
-		self.speed = 1
+		self.speed = 2
 		self.a = 0
 		self.b = 0
 		self.a = 0
@@ -160,7 +160,7 @@ class OgreSeal(pygame.sprite.Sprite):
 		print(self.counter2)
 		print(self.counter3)
 		print(elapsed_time)
-		print(self.a , self.b)
+		#print(self.a , self.b)
 		if self.rect.right > WIDTH:
 			self.rect.right = WIDTH
 		if self.rect.left < 250:
@@ -175,19 +175,20 @@ class OgreSeal(pygame.sprite.Sprite):
 			x,y = direction(self, target)
 			if x > 0 and y > 0:
 				self.image = ogre_images[3]
-			if x < 0 and y < 0:
+			elif x < 0 and y < 0:
 				self.image = ogre_images[7]
-			if x > 0 and y < 0:
+			elif x > 0 and y < 0:
 				self.image = ogre_images[1]
-			if x < 0 and y > 0:
+			elif x < 0 and y > 0:
 				self.image = ogre_images[5]
-			if x < 0 and y == 0:
+			elif x < 0 and y == 0:
 				self.image = ogre_images[6]
-			if x > 0 and y == 0:
+			elif x > 0 and y == 0:
 				self.image = ogre_images[10]
-			if x == 0 and y > 0:
+			elif x == 0 and y > 0:
 				self.image = ogre_images[4]
-			if x == 0 and y < 0:
+			#elif x == 0 and y < 0:
+			else:
 				self.image = ogre_images[9]
 			self.rect.centerx += self.speed*x
 			self.rect.centery += self.speed*y
@@ -213,45 +214,47 @@ class OgreSeal(pygame.sprite.Sprite):
 				x,y = direction2(self,(self.c, self.d))
 				if x > 0 and y > 0:
 					self.image = ogre_images[3]
-				if x < 0 and y < 0:
+				elif x < 0 and y < 0:
 					self.image = ogre_images[7]
-				if x > 0 and y < 0:
+				elif x > 0 and y < 0:
 					self.image = ogre_images[1]
-				if x < 0 and y > 0:
+				elif x < 0 and y > 0:
 					self.image = ogre_images[5]
-				if x < 0 and y == 0:
+				elif x < 0 and y == 0:
 					self.image = ogre_images[6]
-				if x > 0 and y == 0:
+				elif x > 0 and y == 0:
 					self.image = ogre_images[10]
-				if x == 0 and y > 0:
+				elif x == 0 and y > 0:
 					self.image = ogre_images[4]
-				if x == 0 and y < 0:
+				#elif x == 0 and y < 0:
+				else:
 					self.image = ogre_images[9]
-				self.rect.centerx += self.speed*x*20
-				self.rect.centery += self.speed*y*20
+				self.rect.centerx += self.speed*x*15
+				self.rect.centery += self.speed*y*15
 			else:
 				x,y = direction2(self,(self.a, self.b))
 				if x > 0 and y > 0:
 					self.image = ogre_images[3]
-				if x < 0 and y < 0:
+				elif x < 0 and y < 0:
 					self.image = ogre_images[7]
-				if x > 0 and y < 0:
+				elif x > 0 and y < 0:
 					self.image = ogre_images[1]
-				if x < 0 and y > 0:
+				elif x < 0 and y > 0:
 					self.image = ogre_images[5]
-				if x < 0 and y == 0:
+				elif x < 0 and y == 0:
 					self.image = ogre_images[6]
-				if x > 0 and y == 0:
+				elif x > 0 and y == 0:
 					self.image = ogre_images[10]
-				if x == 0 and y > 0:
+				elif x == 0 and y > 0:
 					self.image = ogre_images[4]
-				if x == 0 and y < 0:
+				#elif x == 0 and y < 0:
+				else:
 					self.image = ogre_images[9]
-				self.rect.centerx += self.speed*x*20
-				self.rect.centery += self.speed*y*20
+				self.rect.centerx += self.speed*x*15
+				self.rect.centery += self.speed*y*15
 			if elapsed_time >= self.n:
 				self.counter3 = False
-				self.n = 5000
+				self.n = randint(2000,4000)
 				self.counter1 = True
 				self.start_time1 = pygame.time.get_ticks()
 				
