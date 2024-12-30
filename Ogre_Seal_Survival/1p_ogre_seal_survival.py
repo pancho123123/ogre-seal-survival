@@ -143,8 +143,9 @@ class OgreSeal(pygame.sprite.Sprite):
 		self.counter1 = True
 		self.counter2 = False
 		self.counter3 = False
+		self.counter4 = True
 		self.n = randint(2000,4000)
-		self.start_time1 = pygame.time.get_ticks()
+		self.start_time = pygame.time.get_ticks()
 		self.speed = 2
 		self.a = 0
 		self.b = 0
@@ -155,12 +156,8 @@ class OgreSeal(pygame.sprite.Sprite):
 		target = player
 		self.image.set_colorkey(WHITE)
 		current_time = pygame.time.get_ticks()
-		elapsed_time = current_time - self.start_time1
-		print(self.counter1)
-		print(self.counter2)
-		print(self.counter3)
-		print(elapsed_time)
-		#print(self.a , self.b)
+		elapsed_time = current_time - self.start_time
+		
 		if self.rect.right > WIDTH:
 			self.rect.right = WIDTH
 		if self.rect.left < 250:
@@ -171,7 +168,6 @@ class OgreSeal(pygame.sprite.Sprite):
 			self.rect.bottom = 500
 		
 		if self.counter1:
-			print("a")
 			x,y = direction(self, target)
 			if x > 0 and y > 0:
 				self.image = ogre_images[3]
@@ -187,7 +183,6 @@ class OgreSeal(pygame.sprite.Sprite):
 				self.image = ogre_images[10]
 			elif x == 0 and y > 0:
 				self.image = ogre_images[4]
-			#elif x == 0 and y < 0:
 			else:
 				self.image = ogre_images[9]
 			self.rect.centerx += self.speed*x
@@ -197,19 +192,20 @@ class OgreSeal(pygame.sprite.Sprite):
 				self.n = 1000
 				self.a, self.b = target.rect.centerx, target.rect.centery
 				self.counter2 = True
-				self.start_time1 = pygame.time.get_ticks()
+				self.start_time = pygame.time.get_ticks()
 
 		elif self.counter2:
-			print("b")
+			if self.counter4:
+				ogre_sound.play()
+				self.counter4 = False
 			if elapsed_time >= self.n:
 				self.counter2 = False
 				self.c, self.d = randint(250,WIDTH), randint(30,500)
 				self.n = 2000
 				self.counter3 = True
-				self.start_time1 = pygame.time.get_ticks()
+				self.start_time = pygame.time.get_ticks()
 
 		elif self.counter3:
-			print("d")
 			if self.a == self.rect.centerx and self.b == self.rect.centery:
 				x,y = direction2(self,(self.c, self.d))
 				if x > 0 and y > 0:
@@ -247,16 +243,16 @@ class OgreSeal(pygame.sprite.Sprite):
 					self.image = ogre_images[10]
 				elif x == 0 and y > 0:
 					self.image = ogre_images[4]
-				#elif x == 0 and y < 0:
 				else:
 					self.image = ogre_images[9]
 				self.rect.centerx += self.speed*x*15
 				self.rect.centery += self.speed*y*15
 			if elapsed_time >= self.n:
+				self.counter4 = True
 				self.counter3 = False
 				self.n = randint(2000,4000)
 				self.counter1 = True
-				self.start_time1 = pygame.time.get_ticks()
+				self.start_time = pygame.time.get_ticks()
 				
 class OgreSeal1(OgreSeal):
 	def __init__(self):
@@ -322,6 +318,8 @@ def show_game_over_screen():
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_q:
 					waiting = False
+
+ogre_sound = pygame.mixer.Sound("sound/sonido_ogreseal.wav")
 
 background = pygame.transform.scale(pygame.image.load("img/fond.png").convert(), (1300,700))
 

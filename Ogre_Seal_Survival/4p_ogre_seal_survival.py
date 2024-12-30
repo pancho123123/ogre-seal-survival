@@ -276,9 +276,10 @@ class OgreSeal(pygame.sprite.Sprite):
 		self.counter5 = False
 		self.counter6 = False
 		self.counter7 = False
+		self.counter8 = True
 		self.speed = 1
 		self.n = 1000
-		self.start_time1 = pygame.time.get_ticks()
+		self.start_time = pygame.time.get_ticks()
 		self.a = 0
 		self.b = 0
 		self.c = 0
@@ -286,7 +287,7 @@ class OgreSeal(pygame.sprite.Sprite):
 
 	def update(self):
 		current_time = pygame.time.get_ticks()
-		elapsed_time = current_time - self.start_time1
+		elapsed_time = current_time - self.start_time
 		self.target_list = [t for t in self.target_list if t.hp >0]
 		self.image.set_colorkey(WHITE)
 				
@@ -299,162 +300,166 @@ class OgreSeal(pygame.sprite.Sprite):
 		if self.rect.bottom > 500:
 			self.rect.bottom = 500
 		
-		if self.counter1:
+		elif self.counter1:
 			x,y = direction(self, self.target)
 			if x > 0 and y > 0:
 				self.image = ogre_images[3]
-			if x < 0 and y < 0:
+			elif x < 0 and y < 0:
 				self.image = ogre_images[7]
-			if x > 0 and y < 0:
+			elif x > 0 and y < 0:
 				self.image = ogre_images[1]
-			if x < 0 and y > 0:
+			elif x < 0 and y > 0:
 				self.image = ogre_images[5]
-			if x < 0 and y == 0:
+			elif x < 0 and y == 0:
 				self.image = ogre_images[6]
-			if x > 0 and y == 0:
+			elif x > 0 and y == 0:
 				self.image = ogre_images[10]
-			if x == 0 and y > 0:
+			elif x == 0 and y > 0:
 				self.image = ogre_images[4]
-			if x == 0 and y < 0:
+			else:
 				self.image = ogre_images[9]
 			self.rect.centerx += self.speed*x
 			self.rect.centery += self.speed*y
 			if elapsed_time >= self.n:
 				self.counter1 = False
-				self.start_time1 = pygame.time.get_ticks()
+				self.start_time = pygame.time.get_ticks()
 				self.target = random.choice(self.target_list)
 				self.counter2 = True
 				
-		if self.counter2:
+		elif self.counter2:
 			x,y = direction(self, self.target)
 			if x > 0 and y > 0:
 				self.image = ogre_images[3]
-			if x < 0 and y < 0:
+			elif x < 0 and y < 0:
 				self.image = ogre_images[7]
-			if x > 0 and y < 0:
+			elif x > 0 and y < 0:
 				self.image = ogre_images[1]
-			if x < 0 and y > 0:
+			elif x < 0 and y > 0:
 				self.image = ogre_images[5]
-			if x < 0 and y == 0:
+			elif x < 0 and y == 0:
 				self.image = ogre_images[6]
-			if x > 0 and y == 0:
+			elif x > 0 and y == 0:
 				self.image = ogre_images[10]
-			if x == 0 and y > 0:
+			elif x == 0 and y > 0:
 				self.image = ogre_images[4]
-			if x == 0 and y < 0:
+			else:
 				self.image = ogre_images[9]
 			self.rect.centerx += self.speed*x
 			self.rect.centery += self.speed*y
 			if elapsed_time >= self.n:
 				self.counter2 = False
-				self.start_time1 = pygame.time.get_ticks()
+				self.start_time = pygame.time.get_ticks()
 				self.target = random.choice(self.target_list)
 				self.counter3 = True
 				
-		if self.counter3:
+		elif self.counter3:
 			x,y = direction(self, self.target)
 			if x > 0 and y > 0:
 				self.image = ogre_images[3]
-			if x < 0 and y < 0:
+			elif x < 0 and y < 0:
 				self.image = ogre_images[7]
-			if x > 0 and y < 0:
+			elif x > 0 and y < 0:
 				self.image = ogre_images[1]
-			if x < 0 and y > 0:
+			elif x < 0 and y > 0:
 				self.image = ogre_images[5]
-			if x < 0 and y == 0:
+			elif x < 0 and y == 0:
 				self.image = ogre_images[6]
-			if x > 0 and y == 0:
+			elif x > 0 and y == 0:
 				self.image = ogre_images[10]
-			if x == 0 and y > 0:
+			elif x == 0 and y > 0:
 				self.image = ogre_images[4]
-			if x == 0 and y < 0:
+			else:
 				self.image = ogre_images[9]
 			self.rect.centerx += self.speed*x
 			self.rect.centery += self.speed*y
 			if elapsed_time >= self.n:
 				self.counter3 = False
-				self.start_time1 = pygame.time.get_ticks()
+				self.start_time = pygame.time.get_ticks()
 				self.target = random.choice(self.target_list)
 				self.counter4 = True
 				
-		if self.counter4:
+		elif self.counter4:
 			x,y = direction(self, self.target)
 			if x > 0 and y > 0:
 				self.image = ogre_images[3]
-			if x < 0 and y < 0:
+			elif x < 0 and y < 0:
 				self.image = ogre_images[7]
-			if x > 0 and y < 0:
+			elif x > 0 and y < 0:
 				self.image = ogre_images[1]
-			if x < 0 and y > 0:
+			elif x < 0 and y > 0:
 				self.image = ogre_images[5]
-			if x < 0 and y == 0:
+			elif x < 0 and y == 0:
 				self.image = ogre_images[6]
-			if x > 0 and y == 0:
+			elif x > 0 and y == 0:
 				self.image = ogre_images[10]
-			if x == 0 and y > 0:
+			elif x == 0 and y > 0:
 				self.image = ogre_images[4]
-			if x == 0 and y < 0:
+			else:
 				self.image = ogre_images[9]
 			self.rect.centerx += self.speed*x
 			self.rect.centery += self.speed*y
 			if elapsed_time >= self.n:
 				self.counter4 = False
-				self.start_time1 = pygame.time.get_ticks()
+				self.start_time = pygame.time.get_ticks()
 				self.target = random.choice(self.target_list)
 				self.counter5 = True
 				
-		if self.counter5:
+		elif self.counter5:
 			x,y = direction(self, self.target)
 			if x > 0 and y > 0:
 				self.image = ogre_images[3]
-			if x < 0 and y < 0:
+			elif x < 0 and y < 0:
 				self.image = ogre_images[7]
-			if x > 0 and y < 0:
+			elif x > 0 and y < 0:
 				self.image = ogre_images[1]
-			if x < 0 and y > 0:
+			elif x < 0 and y > 0:
 				self.image = ogre_images[5]
-			if x < 0 and y == 0:
+			elif x < 0 and y == 0:
 				self.image = ogre_images[6]
-			if x > 0 and y == 0:
+			elif x > 0 and y == 0:
 				self.image = ogre_images[10]
-			if x == 0 and y > 0:
+			elif x == 0 and y > 0:
 				self.image = ogre_images[4]
-			if x == 0 and y < 0:
+			else:
 				self.image = ogre_images[9]
 			self.rect.centerx += self.speed*x
 			self.rect.centery += self.speed*y
 			if elapsed_time >= self.n:
 				self.counter5 = False
-				self.start_time1 = pygame.time.get_ticks()
+				self.start_time = pygame.time.get_ticks()
 				self.a , self.b = self.target.rect.centerx , self.target.rect.centery
+				self.n = 500
 				self.counter6 = True
 				
-		if self.counter6:
+		elif self.counter6:
+			if self.counter8 :
+				ogre_sound.play()
+				self.counter8 = False
 			if elapsed_time >= self.n:
 				self.counter6 = False
 				self.c, self.d = randint(250,WIDTH), randint(30,500)
-				self.start_time1 = pygame.time.get_ticks()
+				self.start_time = pygame.time.get_ticks()
 				self.n = 2000
 				self.counter7 = True
 				
-		if self.counter7:
+		elif self.counter7:
 			if self.a == self.rect.centerx and self.b == self.rect.centery:
 				x,y = direction2(self,(self.c, self.d))
 				if x > 0 and y > 0:
 					self.image = ogre_images[3]
-				if x < 0 and y < 0:
+				elif x < 0 and y < 0:
 					self.image = ogre_images[7]
-				if x > 0 and y < 0:
+				elif x > 0 and y < 0:
 					self.image = ogre_images[1]
-				if x < 0 and y > 0:
+				elif x < 0 and y > 0:
 					self.image = ogre_images[5]
-				if x < 0 and y == 0:
+				elif x < 0 and y == 0:
 					self.image = ogre_images[6]
-				if x > 0 and y == 0:
+				elif x > 0 and y == 0:
 					self.image = ogre_images[10]
-				if x == 0 and y > 0:
+				elif x == 0 and y > 0:
 					self.image = ogre_images[4]
-				if x == 0 and y < 0:
+				else:
 					self.image = ogre_images[9]
 				
 				self.rect.centerx += self.speed*x*20
@@ -481,8 +486,9 @@ class OgreSeal(pygame.sprite.Sprite):
 				self.rect.centerx += self.speed*x*20
 				self.rect.centery += self.speed*y*20
 			if elapsed_time >= self.n:
+				self.counter8 = True
 				self.counter7 = False
-				self.start_time1 = pygame.time.get_ticks()
+				self.start_time = pygame.time.get_ticks()
 				self.target = random.choice(self.target_list)
 				self.n = 1000
 				self.counter1 = True
@@ -607,6 +613,8 @@ def show_game_over_screenp4():
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_q:
 					waiting = False
+
+ogre_sound = pygame.mixer.Sound("sound/sonido_ogreseal.wav")
 
 background = pygame.transform.scale(pygame.image.load("img/fond.png").convert(), (1300,700))
 
